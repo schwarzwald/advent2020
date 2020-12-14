@@ -23,7 +23,7 @@ module.exports = input => {
         let copy = addr | mask;
 
         for (let b = 0; b < x.length; b++) {
-          copy = ((i >> b) & 1 == 1) ? copy | x[b] : copy & ~x[b];
+          copy = (i >> b) & 1 ? copy | x[b] : copy & ~x[b];
         }
 
         map.set(copy, val);
