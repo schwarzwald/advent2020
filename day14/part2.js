@@ -11,7 +11,7 @@ module.exports = input => {
         if (v == '1') {
           mask |= 1n << BigInt(35 - ix);
         } else if (v == 'X') {
-          x.push(BigInt(ix));
+          x.push(1n << BigInt(35 - ix));
         }
       });
     } else {
@@ -23,11 +23,7 @@ module.exports = input => {
         let copy = addr | mask;
 
         for (let b = 0; b < x.length; b++) {
-          if ((i >> b) & 1 == 1) {
-            copy |= 1n << (35n - x[b]);
-          } else {
-            copy &= ~(1n << (35n - x[b]));
-          }
+          copy = ((i >> b) & 1 == 1) ? copy | x[b] : copy & ~x[b];
         }
 
         map.set(copy, val);

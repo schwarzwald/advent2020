@@ -4,14 +4,14 @@ module.exports = input => {
 
   for (let line of input.split('\n')) {
     if (line.startsWith('mask')) {
-      masks = [0n, (1n << 36n) - 1n];
+      masks = [0n, ~0n];
 
       [...line.split(' = ')[1]].forEach((v, ix) => {
-        let offset = BigInt(35 - ix);
+        let bit = 1n << BigInt(35 - ix);
         if (v == '1') {
-          masks[0] |= 1n << offset;
+          masks[0] |= bit;
         } else if (v == '0') {
-          masks[1] ^= 1n << offset;
+          masks[1] ^= bit;
         }
       });
     } else {
