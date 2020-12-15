@@ -11,15 +11,15 @@ describe('Day 13: Part 1', () => {
 describe('Day 13: Part 2', () => {
   it('Calculates the earliest timestamp at which the buses depart in prescribed intervals', () => {
     expect(part2(`939
-7,13,x,x,59,x,31,19`)).to.equal(1068781);
+7,13,x,x,59,x,31,19`)).to.equal(1068781n);
 
     expect(part2(`939
-    67,7,59,61`)).to.equal(754018);
+    67,7,59,61`)).to.equal(754018n);
 
     expect(part2(`939
-    67,7,x,59,61`)).to.equal(1261476);
+    67,7,x,59,61`)).to.equal(1261476n);
 
     expect(part2(`939
-    1789,37,47,1889`)).to.equal(1202161486);
+    1789,37,47,1889`)).to.equal(1202161486n);
   });
 });
