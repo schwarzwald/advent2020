@@ -14,7 +14,8 @@ describe('Day 15: Part 1', () => {
   });
 });
 describe('Day 15: Part 2', () => {
-  it('Calculates 2020th spoken number', () => {
+  it('Calculates 30 000 000th spoken number', function () {
+    this.timeout(10000);
     expect(part2('0,3,6')).to.equal(175594);
   });
 });
