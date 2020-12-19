@@ -18,8 +18,6 @@ module.exports = input => {
 
   let reg = new RegExp("^" + compile('0') + "$");
 
-  console.log(compile('42'))
-
   return messagesRaw.split('\n')
     .filter(m => reg.test(m.trim()))
     .length;
