@@ -1,9 +1,9 @@
 class Circle {
 
-  constructor() {
+  constructor(size) {
     this.head = null;
     this.length = 0;
-    this.map = new Map();
+    this.map = new Array(size)
   }
 
   add(...vals) {
@@ -11,30 +11,32 @@ class Circle {
       this.length++;
 
       if (this.head == null) {
-        this.head = new Node(val);
-        this.head.next = this.head;
-        this.head.prev = this.head;
+        this.set(val, val);
       } else {
-        let node = new Node(val);
-        node.prev = this.head;
-        node.next = this.head.next;
-        node.next.prev = node;
-        this.head.next = node;
-        this.head = node;
+        this.set(val, this.get(this.head));
+        this.set(this.head, val);
       }
 
-      this.map.set(val, this.head);
+      this.head = val;
     }
 
     return this;
   }
 
+  get(val) {
+    return this.map[val - 1];
+  }
+
+  set(val, next) {
+    this.map[val - 1] = next;
+  }
+
   val() {
-    return this.head ? this.head.val : null;
+    return this.head;
   }
 
   next() {
-    this.head = this.head.next;
+    this.head = this.get(this.head);
     return this;
   }
 
@@ -43,26 +45,16 @@ class Circle {
     return this;
   }
 
-  find(val) {
-    this.reset(this.map.get(val));
-    return this;
-  }
-
   remove() {
     if (this.length == 0) {
       return null;
     }
 
-    let val = this.head.val;
+    let val = this.get(this.head);
     if (this.length == 1) {
       this.head = null;
     } else {
-      let next = this.head.next;
-      let prev = this.head.prev;
-
-      next.prev = prev;
-      prev.next = next;
-      this.head = prev;
+      this.set(this.head, this.get(val));
     }
 
     this.length--;
@@ -70,37 +62,30 @@ class Circle {
   }
 
 }
-class Node {
-  constructor(val) {
-    this.val = val;
-    this.next = null;
-    this.prev = null;
-  }
-}
 
-module.exports = (input, rounds = 10000000) => {
+module.exports = input => {
   let max = 1000000;
+
   let circle = input.split('')
     .map(Number)
     .reduce((c, v) => c.add(v), new Circle());
+
 
   for (let i = circle.length + 1; i <= max; i++) {
     circle.add(i);
   }
 
-  for (let i = 0; i < rounds; i++) {
+  for (let i = 0; i < 10000000; i++) {
     circle.next();
-
     let head = circle.head;
     let next = circle.val() - 1 || max;
-    let removed = [circle.next().remove(), circle.next().remove(), circle.next().remove()];
+    let removed = [circle.remove(), circle.remove(), circle.remove()];
 
     while (removed.includes(next)) {
       next = next - 1 || max;
     }
-
-    circle.find(next).add(...removed).reset(head);
+    circle.reset(next).add(...removed).reset(head);
   }
 
-  return circle.find(1).next().val() * circle.next().val();
+  return circle.reset(1).next().val() * circle.next().val();
 }

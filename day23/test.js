@@ -8,8 +8,8 @@ describe('Day 23: Part 1', () => {
   });
 });
 describe('Day 23: Part 2', () => {
-  it('Multiplies labels of two cups after cup #1 after 1 mil. moves with 1 mil. cups', function () {
+  it('Multiplies labels of two cups after cup #1 after 10 mil. moves with 1 mil. cups', function () {
     this.timeout(10000);
-    expect(part2('389125467', 1000000)).to.equal(126);
+    expect(part2('389125467')).to.equal(149245887792);
   });
 });
