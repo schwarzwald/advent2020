@@ -1,7 +1,7 @@
 class Circle {
 
   constructor(size) {
-    this.head = null;
+    this.value = null;
     this.length = 0;
     this.map = new Array(size)
   }
@@ -10,14 +10,14 @@ class Circle {
     for (let val of vals) {
       this.length++;
 
-      if (this.head == null) {
+      if (this.value == null) {
         this.set(val, val);
       } else {
-        this.set(val, this.get(this.head));
-        this.set(this.head, val);
+        this.set(val, this.get(this.value));
+        this.set(this.value, val);
       }
 
-      this.head = val;
+      this.value = val;
     }
 
     return this;
@@ -31,17 +31,13 @@ class Circle {
     this.map[val - 1] = next;
   }
 
-  val() {
-    return this.head;
-  }
-
   next() {
-    this.head = this.get(this.head);
+    this.value = this.get(this.value);
     return this;
   }
 
   reset(node) {
-    this.head = node;
+    this.value = node;
     return this;
   }
 
@@ -50,11 +46,11 @@ class Circle {
       return null;
     }
 
-    let val = this.get(this.head);
+    let val = this.get(this.value);
     if (this.length == 1) {
-      this.head = null;
+      this.value = null;
     } else {
-      this.set(this.head, this.get(val));
+      this.set(this.value, this.get(val));
     }
 
     this.length--;
@@ -68,7 +64,7 @@ module.exports = input => {
 
   let circle = input.split('')
     .map(Number)
-    .reduce((c, v) => c.add(v), new Circle());
+    .reduce((c, v) => c.add(v), new Circle(max));
 
 
   for (let i = circle.length + 1; i <= max; i++) {
@@ -77,15 +73,15 @@ module.exports = input => {
 
   for (let i = 0; i < 10000000; i++) {
     circle.next();
-    let head = circle.head;
-    let next = circle.val() - 1 || max;
+    let value = circle.value;
+    let next = circle.value - 1 || max;
     let removed = [circle.remove(), circle.remove(), circle.remove()];
 
     while (removed.includes(next)) {
       next = next - 1 || max;
     }
-    circle.reset(next).add(...removed).reset(head);
+    circle.reset(next).add(...removed).reset(value);
   }
 
-  return circle.reset(1).next().val() * circle.next().val();
+  return circle.reset(1).next().value * circle.next().value;
 }
