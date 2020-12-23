@@ -6,19 +6,17 @@ class Circle {
     this.map = new Array(size)
   }
 
-  add(...vals) {
-    for (let val of vals) {
-      this.length++;
+  add(val) {
+    this.length++;
 
-      if (this.value == null) {
-        this.set(val, val);
-      } else {
-        this.set(val, this.get(this.value));
-        this.set(this.value, val);
-      }
-
-      this.value = val;
+    if (this.value == null) {
+      this.set(val, val);
+    } else {
+      this.set(val, this.get(this.value));
+      this.set(this.value, val);
     }
+
+    this.value = val;
 
     return this;
   }
@@ -75,12 +73,16 @@ module.exports = input => {
     circle.next();
     let value = circle.value;
     let next = circle.value - 1 || max;
-    let removed = [circle.remove(), circle.remove(), circle.remove()];
 
-    while (removed.includes(next)) {
+    let r1 = circle.remove();
+    let r2 = circle.remove();
+    let r3 = circle.remove();
+
+    while (r1 == next || r2 == next || r3 == next) {
       next = next - 1 || max;
     }
-    circle.reset(next).add(...removed).reset(value);
+
+    circle.reset(next).add(r1).add(r2).add(r3).reset(value);
   }
 
   return circle.reset(1).next().value * circle.next().value;
