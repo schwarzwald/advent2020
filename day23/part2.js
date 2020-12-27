@@ -3,7 +3,7 @@ class Circle {
   constructor(size) {
     this.value = null;
     this.length = 0;
-    this.map = new Array(size)
+    this.map = new Uint32Array(size)
   }
 
   add(val) {
